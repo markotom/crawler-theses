@@ -1,9 +1,7 @@
 Rastreador de tesis
 ===================
 
-![Advertencia](./warning.png)
-
-Requerimientos:
+**Requerimientos**:
 
 * Node.js >= 6
 * MongoDB
@@ -35,3 +33,7 @@ Luego, empezará el rastreo por paquetes de datos:
 ## Licencia
 
 MIT
+
+
+
+![Advertencia](./warning.png)
