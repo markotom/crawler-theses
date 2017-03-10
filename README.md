@@ -1,12 +1,12 @@
 Crawler Theses
 ==============
 
+![Advertencia](./warning.png)
+
 Requerimientos:
 
 * Node.js >= 6
 * MongoDB
-
-![Advertencia](./warning.png)
 
 ## Instalación
 
@@ -30,7 +30,7 @@ $ npm run crawl
 
 Luego, empezará el rastreo por paquetes de datos:
 
-![Sample](https://raw.githubusercontent.com/markotom/crawler-theses/master/sample.png)
+![Sample](./sample.png)
 
 ## Licencia
 
