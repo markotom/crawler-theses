@@ -47,7 +47,7 @@ crawler.pipe(stream)
 
 // Get JSON
 stream.on('data', function (theses) {
-  logger.info('Received chunk for ' + chalk.green(theses.length) + ' theses')
+  logger.info('\n\nReceived chunk for ' + chalk.green(theses.length) + ' theses')
 
   // Insert theses on database
   theses.map(function (thesis) {
