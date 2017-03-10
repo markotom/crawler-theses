@@ -6,7 +6,7 @@ Requerimientos:
 * Node.js >= 6
 * MongoDB
 
-![Advertencia](https://placeholdit.imgix.net/~text?txtsize=20&bg=ff0000&txtclr=ffffff&txt=EL+MAL+USO+DE+ESTE+DESARROLLO+ES+RESPONSABILIDAD+DE+QUIEN+LO+REPRODUCE%2C+INSTALA+Y+EJECUTA.&w=310&h=110&txttrack=2&fm=png)
+![Advertencia](./warning.png)
 
 ## Instalación
 
