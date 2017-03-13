@@ -5,7 +5,14 @@ const Schema = mongoose.Schema
 let thesisSchema = new Schema({
   title: String,
   author: String,
-  details: String,
+  url: String,
+  file: String,
+  degree: String,
+  advisor: String,
+  format: String,
+  legal: String,
+  institution: String,
+  description: String,
   year: Number
 }, {
   timestamps: true,
