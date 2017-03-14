@@ -30,6 +30,12 @@ Luego, empezará el rastreo por paquetes de datos:
 
 ![Sample](./sample.png)
 
+Finalmente, es posible exportar un archivo CSV (`theses.csv`):
+
+```
+$ npm run csv
+```
+
 ## Licencia
 
 MIT

@@ -4,7 +4,8 @@
   "description": "Crawler of theses",
   "main": "index.js",
   "scripts": {
-    "crawl": "node index"
+    "crawl": "node index",
+    "csv": "node csv"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "dependencies": {
     "JSONStream": "^1.3.1",
     "chalk": "^1.1.3",
+    "json2csv-stream": "^0.1.4",
     "lodash": "^4.17.4",
     "mongoose": "^4.8.6",
     "query-string": "^4.3.2",
