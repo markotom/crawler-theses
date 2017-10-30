@@ -2,11 +2,6 @@
   "name": "crawler-theses",
   "version": "0.1.0",
   "description": "Crawler of theses",
-  "main": "index.js",
-  "scripts": {
-    "crawl": "node index",
-    "csv": "node csv"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/markotom/crawler-theses.git"
@@ -20,11 +15,15 @@
   "dependencies": {
     "JSONStream": "^1.3.1",
     "chalk": "^1.1.3",
+    "co": "^4.6.0",
     "json2csv-stream": "^0.1.4",
-    "lodash": "^4.17.4",
+    "keyword-extractor": "0.0.14",
     "mongoose": "^4.8.6",
+    "pretty-error": "^2.1.1",
     "query-string": "^4.3.2",
+    "uuid": "^3.1.0",
     "winston": "^2.3.1",
-    "x-ray": "^2.3.2"
+    "x-ray": "^2.3.2",
+    "yargs": "^10.0.3"
   }
 }

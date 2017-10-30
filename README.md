@@ -16,24 +16,32 @@ $ npm install
 
 ## Configuración
 
-Crear un archivo de configuración del entorno requerido basado en [config/default.js](./config/default.js) (v. g. config/development.js, config/production.js). Añadir las opciones requeridas para la base de datos y los criterios de búsqueda.
+Crear un archivo de configuración del entorno requerido basado en [config/default.js](./config/default.js) (v. g. config/development.js, config/production.js). Añadir las opciones requeridas para la base de datos.
 
 ## Uso
 
 En la terminal, ejecuta el siguiente *script*:
 
 ```
-$ npm run crawl
+$ node tasks/scrap --career filosofia --since 2005 --until 2017
 ```
 
 Luego, empezará el rastreo por paquetes de datos:
 
 ![Sample](./sample.png)
 
-Finalmente, es posible exportar un archivo CSV (`theses.csv`):
+## Tareas
+
+#### Limpiar Datos
 
 ```
-$ npm run csv
+$ node tasks/clean
+```
+
+#### Tokenizing
+
+```
+$ node tasks/keywords
 ```
 
 ## Licencia
