@@ -1,4 +1,4 @@
-// node tasks/scrap --career filosofia --since 2000 --until 2017
+// node tasks/scrap --career filosofia --since 2000 --until 2017 --url http://oreon.dgbiblio.unam.mx/F/HT1QPDSRQXMUHTLY8H1P7SSDT135I66IV35VJH4E9NQYA94XTM-06286?func=short-jump&jump=000041
 const config = require('../config').crawling
 const chalk = require('chalk')
 const Task = require('../lib/task')
@@ -6,13 +6,15 @@ const qs = require('querystring')
 const x = require('../lib/x-ray')
 const JSONStream = require('JSONstream')
 const Thesis = require('../models/thesis')
+const Request = require('../models/request')
 
+let currentUrl
 let count = 0
 let created = 0
 let failed = 0
 
 const task = new Task(async function (argv) {
-  const { career, since, until, pages } = argv
+  const { career, since, until, url, pages } = argv
 
   this.assert(career, 'career is required')
   this.assert(since, 'since is required')
@@ -36,13 +38,56 @@ const task = new Task(async function (argv) {
     filter_request_3: until
   }
 
-  await scrap(config.url, query, pages)
+  const startUrl = url || config.url + '?' + qs.stringify(query)
+
+  await scrap(startUrl, pages)
 
   return { count, created, failed }
 })
 
-// Set stream JSON parser
-const stream = JSONStream.parse('*.theses').on('data', items => {
+// Define a scrap function as yieldable
+const scrap = function (startUrl, limit = 1000000) {
+  return new Promise((resolve, reject) => {
+    const crawler = x(startUrl, '#resultSetSearch', {
+      theses: x('tbody', [{
+        fields: x('.td0 a@href', {
+          properties: ['#resultSetSearch th | trim | clean'],
+          values: ['#resultSetSearch td | trim | clean']
+        }),
+        author: '.td1 | trim | clean',
+        title: '.td2 script | title | trim | clean',
+        file: x('.td4@html | unescape | url:0', 'body@onload | unescape | url:0'),
+        year: '.td3 | trim | clean'
+      }])
+    })
+    .paginate('a[title="Next"]@href')
+    .abort(function (data, nextUrl) {
+      const request = new Request({
+        resource: 'thesis',
+        url: currentUrl || startUrl,
+        rawData: data.theses
+      })
+
+      if (currentUrl) {
+        console.log(chalk.yellow('Crawled URL =>'), currentUrl)
+      }
+
+      request.save()
+
+      currentUrl = nextUrl
+    })
+    .limit(limit)
+    .stream()
+
+    crawler
+      .pipe(JSONStream.parse('*.theses'))
+      .on('data', createTheses)
+      .on('error', reject)
+      .on('end', () => setTimeout(resolve, 3000))
+  })
+}
+
+const createTheses = items => {
   // Format fields
   items.map(function (item) {
     const { properties, values } = item.fields
@@ -77,31 +122,6 @@ const stream = JSONStream.parse('*.theses').on('data', items => {
     })
 
     count++
-  })
-})
-
-// Define a scrap function as yieldable
-const scrap = function (url, query, limit = 1000000) {
-  return new Promise((resolve, reject) => {
-    const crawler = x(url + '?' + qs.stringify(query), '#resultSetSearch', {
-      theses: x('tbody', [{
-        fields: x('.td0 a@href', {
-          properties: ['#resultSetSearch th | trim | clean'],
-          values: ['#resultSetSearch td | trim | clean']
-        }),
-        author: '.td1 | trim | clean',
-        title: '.td2 script | title | trim | clean',
-        file: x('.td4@html | unescape | url:0', 'body@onload | unescape | url:0'),
-        year: '.td3 | trim | clean'
-      }])
-    })
-    .paginate('a[title="Next"]@href')
-    .limit(limit)
-    .stream()
-
-    crawler.pipe(stream)
-      .on('error', reject)
-      .on('end', () => setTimeout(resolve, 3000))
   })
 }
 
