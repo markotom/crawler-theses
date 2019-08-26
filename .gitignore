@@ -8,3 +8,4 @@ config/production.js
 # Ignore CSV files
 *.csv
 tmp/
+pdfs/
